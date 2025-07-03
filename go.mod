@@ -1,4 +1,4 @@
-module github.com/nalajala4naresh/ch-vmm/api
+module github.com/nalajala4naresh/chvmm-api
 
 go 1.23.0
 
