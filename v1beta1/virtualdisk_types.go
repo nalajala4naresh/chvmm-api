@@ -142,3 +142,7 @@ type VirtualDiskList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []VirtualDisk `json:"items"`
 }
+
+func init() {
+	SchemeBuilder.Register(&VirtualDisk{}, &VirtualDiskList{})
+}
