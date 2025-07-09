@@ -11,8 +11,4 @@ CODEGEN_PKG=${CODEGEN_PKG:-$(cd "${SCRIPT_ROOT}"; ls -d -1 ./vendor/k8s.io/code-
 # --output-base    because this script should also be able to run inside the vendor dir of
 #                  k8s.io/kubernetes. The output-base is needed for the generators to output into the vendor dir
 #                  instead of the $GOPATH directly. For normal projects this can be dropped.
-bash "${CODEGEN_PKG}"/kube_codegen.sh "deepcopy,client,informer,lister" \
-  github.com/nalajala4naresh/chvmm-api/client github.com/nalajala4naresh/chvmm-api/apis \
-  cloudhypervisor.quill.today:v1beta1 \
-  --output-base "$(dirname "${BASH_SOURCE[0]}")/../.." \
-  --go-header-file "${SCRIPT_ROOT}"/boilerplate.go.txt 
+controller-gen crd paths=./... output:crd:dir=config/crd/bases
