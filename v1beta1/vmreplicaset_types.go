@@ -2,7 +2,6 @@ package v1beta1
 
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	cdiv1beta1 "kubevirt.io/containerized-data-importer-api/pkg/apis/core/v1beta1"
 )
 
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
@@ -17,14 +16,14 @@ type VMReplicaSetSpec struct {
 	Selector metav1.LabelSelector       `json:"selector"`
 	Template VirtualMachineTemplateSpec `json:"virtualMachineTemplate"`
 	// +optional
-	DataVolumeTemplates []DataVolumeTemplate `json:"dataVolumeTemplates"`
+	DiskTemplates []DiskTemplate `json:"diskTemplates"`
 	// +optional
 	Strategy VMReplicaSetStrategy `json:"strategy,omitempty"`
 }
 
-type DataVolumeTemplate struct {
-	MetaData ObjMeta                   `json:"metadata,omitempty"`
-	Spec     cdiv1beta1.DataVolumeSpec `json:"spec"`
+type DiskTemplate struct {
+	MetaData ObjMeta         `json:"metadata,omitempty"`
+	Spec     VirtualDiskSpec `json:"spec"`
 }
 
 type ObjMeta struct {

@@ -18,7 +18,7 @@ type VMSetSpec struct {
 	Selector metav1.LabelSelector       `json:"selector"`
 	Template VirtualMachineTemplateSpec `json:"virtualMachineTemplate"`
 	// +optional
-	DataVolumeTemplates []DataVolumeTemplate `json:"dataVolumeTemplates"`
+	DiskTemplates []DiskTemplate `json:"diskTemplates"`
 	// +optional
 	Strategy VMSetStrategy `json:"strategy,omitempty"`
 }
