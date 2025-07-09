@@ -149,5 +149,5 @@ type VirtualDiskSnapshotList struct {
 }
 
 func init() {
-	SchemeBuilder.Register(&VirtualDiskSnapshot{}, &VirtualDiskSnapshot{})
+	SchemeBuilder.Register(&VirtualDiskSnapshot{}, &VirtualDiskSnapshotList{})
 }
