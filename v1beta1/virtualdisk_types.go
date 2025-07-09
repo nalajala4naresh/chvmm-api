@@ -103,6 +103,8 @@ const (
 	// VirtualDiskBound means the disk is bound and ready for use
 	VirtualDiskBound VirtualDiskPhase = "Bound"
 
+	VirtualDiskReady VirtualDiskPhase = "Ready"
+
 	// VirtualDiskFailed means the disk creation failed
 	VirtualDiskFailed VirtualDiskPhase = "Failed"
 
@@ -115,7 +117,7 @@ type VirtualDiskConditionType string
 
 const (
 	// VirtualDiskReady means the disk is ready for use
-	VirtualDiskReady VirtualDiskConditionType = "Ready"
+	VirtualDiskReadyCondition VirtualDiskConditionType = "Ready"
 
 	// VirtualDiskBound means the disk is bound to a storage backend
 	VirtualDiskBoundCondition VirtualDiskConditionType = "Bound"

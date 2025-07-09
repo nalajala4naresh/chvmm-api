@@ -95,7 +95,7 @@ type SnapshotDetails struct {
 }
 
 // VirtualDiskSnapshotPhase represents the phase of a virtual disk snapshot
-// +kubebuilder:validation:Enum=Pending;InProgress;Completed;Failed;Terminating
+// +kubebuilder:validation:Enum=Pending;InProgress;ReadyToUse;Error;Deleting
 type VirtualDiskSnapshotPhase string
 
 const (
@@ -105,14 +105,14 @@ const (
 	// VirtualDiskSnapshotInProgress means the snapshot is being created
 	VirtualDiskSnapshotInProgress VirtualDiskSnapshotPhase = "InProgress"
 
-	// VirtualDiskSnapshotCompleted means the snapshot was created successfully
-	VirtualDiskSnapshotCompleted VirtualDiskSnapshotPhase = "Completed"
+	// VirtualDiskSnapshotReadyToUse means the snapshot is ready for use
+	VirtualDiskSnapshotReadyToUse VirtualDiskSnapshotPhase = "ReadyToUse"
 
-	// VirtualDiskSnapshotFailed means the snapshot creation failed
-	VirtualDiskSnapshotFailed VirtualDiskSnapshotPhase = "Failed"
+	// VirtualDiskSnapshotError means the snapshot creation failed
+	VirtualDiskSnapshotError VirtualDiskSnapshotPhase = "Error"
 
-	// VirtualDiskSnapshotTerminating means the snapshot is being deleted
-	VirtualDiskSnapshotTerminating VirtualDiskSnapshotPhase = "Terminating"
+	// VirtualDiskSnapshotDeleting means the snapshot is being deleted
+	VirtualDiskSnapshotDeleting VirtualDiskSnapshotPhase = "Deleting"
 )
 
 // VirtualDiskSnapshotConditionType represents the type of a virtual disk snapshot condition
