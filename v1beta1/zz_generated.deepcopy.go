@@ -22,6 +22,7 @@ package v1beta1
 
 import (
 	corev1 "k8s.io/api/core/v1"
+	"k8s.io/apimachinery/pkg/api/resource"
 	"k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/util/intstr"
@@ -690,9 +691,9 @@ func (in *SnapshotResources) DeepCopyInto(out *SnapshotResources) {
 	*out = *in
 	if in.Requests != nil {
 		in, out := &in.Requests, &out.Requests
-		*out = make(map[string]string, len(*in))
+		*out = make(map[string]resource.Quantity, len(*in))
 		for key, val := range *in {
-			(*out)[key] = val
+			(*out)[key] = val.DeepCopy()
 		}
 	}
 }
@@ -1475,9 +1476,9 @@ func (in *VirtualDiskResources) DeepCopyInto(out *VirtualDiskResources) {
 	*out = *in
 	if in.Requests != nil {
 		in, out := &in.Requests, &out.Requests
-		*out = make(map[string]string, len(*in))
+		*out = make(map[string]resource.Quantity, len(*in))
 		for key, val := range *in {
-			(*out)[key] = val
+			(*out)[key] = val.DeepCopy()
 		}
 	}
 }

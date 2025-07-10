@@ -35,7 +35,7 @@ type VirtualDiskStorage struct {
 // VirtualDiskResources defines the storage resources
 type VirtualDiskResources struct {
 	// Storage requests
-	Requests map[string]string `json:"requests,omitempty"`
+	Requests map[string]resource.Quantity `json:"requests,omitempty"`
 }
 
 // VirtualDiskSource defines the source configuration for a virtual disk
