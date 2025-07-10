@@ -93,7 +93,7 @@ type VirtualDiskStatus struct {
 }
 
 // VirtualDiskPhase represents the phase of a virtual disk
-// +kubebuilder:validation:Enum=Pending;Bound;Failed;Terminating
+// +kubebuilder:validation:Enum=Pending;Bound;Ready;Failed;Terminating
 type VirtualDiskPhase string
 
 const (
