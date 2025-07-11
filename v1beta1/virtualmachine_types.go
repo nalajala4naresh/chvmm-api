@@ -156,6 +156,12 @@ type VolumeSource struct {
 	PersistentVolumeClaim *PersistentVolumeClaimVolumeSource `json:"persistentVolumeClaim,omitempty"`
 	DataVolume            *DataVolumeVolumeSource            `json:"dataVolume,omitempty"`
 	MemorySnapshot        *MemorySnapshotSource              `json:"memorySnapshot,omitempty"`
+	VirtualDisk           *VirtualDiskVMSource               `json:"virtualDisk,omitempty"`
+}
+
+type VirtualDiskVMSource struct {
+	Hotpluggable    bool   `json:"hotpluggable,omitempty"`
+	VirtualDiskName string `json:"virtualDiskName"`
 }
 
 type ContainerDiskVolumeSource struct {
