@@ -47,7 +47,7 @@ type MemoryStatus struct {
 	LastTransitionTime metav1.Time `json:"lastTransitionTime,omitempty"`
 }
 
-// +kubebuilder:validation:Enum=Created;Failed;Scheduled;InProgress;VMRestoreSpecFailed;VMRestoreSpecCreated
+// +kubebuilder:validation:Enum=Created;Failed;Scheduled;InProgress;VMRestoreSpecFailed;VMRestoreSpecCreated;ReadyToUse
 type VMSnapShotStatusPhase string
 
 const (
@@ -57,6 +57,7 @@ const (
 	VMRestoreSpecCreated VMSnapShotStatusPhase = "VMRestoreSpecCreated"
 	VMSnapShotScheduled  VMSnapShotStatusPhase = "Scheduled"
 	VMSnapShotInProgress VMSnapShotStatusPhase = "InProgress"
+	VMSnapShotReady      VMSnapShotStatusPhase = "ReadyToUse"
 )
 
 // +kubebuilder:object:root=true
