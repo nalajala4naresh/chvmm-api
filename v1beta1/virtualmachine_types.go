@@ -144,6 +144,8 @@ func (v *Volume) PVCName() string {
 		return v.PersistentVolumeClaim.ClaimName
 	case v.DataVolume != nil:
 		return v.DataVolume.VolumeName
+	case v.VirtualDisk != nil:
+		return v.VirtualDisk.VirtualDiskName
 	default:
 		return ""
 	}
