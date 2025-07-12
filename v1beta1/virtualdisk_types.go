@@ -45,6 +45,10 @@ type VirtualDiskSource struct {
 
 	// HTTP source
 	HTTP *HTTPSource `json:"http,omitempty"`
+
+	DiskSnapshot *DiskSnapshotSource `json:"diskSnapshot,omitempty"`
+
+	Empty *EmptySource `json:"empty,omitempty"`
 }
 
 // RegistrySource defines a registry disk source
@@ -54,6 +58,12 @@ type RegistrySource struct {
 
 	// Pull method
 	PullMethod string `json:"pullMethod,omitempty"`
+}
+
+type EmptySource struct{}
+
+type DiskSnapshotSource struct {
+	DiskSnapshotName string `json:"snapshotName"`
 }
 
 // HTTPSource defines an HTTP disk source
