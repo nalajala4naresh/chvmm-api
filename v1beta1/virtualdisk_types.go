@@ -48,7 +48,7 @@ type VirtualDiskSource struct {
 
 	DiskSnapshot *DiskSnapshotSource `json:"diskSnapshot,omitempty"`
 
-	Empty *EmptySource `json:"empty"`
+	Empty *EmptySource `json:"empty,omitempty"`
 }
 
 // RegistrySource defines a registry disk source
@@ -60,7 +60,8 @@ type RegistrySource struct {
 	PullMethod string `json:"pullMethod,omitempty"`
 }
 
-type EmptySource struct{}
+type EmptySource struct {
+}
 
 type DiskSnapshotSource struct {
 	DiskSnapshotName string `json:"snapshotName"`
