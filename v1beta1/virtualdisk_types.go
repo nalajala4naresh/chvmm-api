@@ -48,7 +48,7 @@ type VirtualDiskSource struct {
 
 	DiskSnapshot *DiskSnapshotSource `json:"diskSnapshot,omitempty"`
 
-	Empty *EmptySource `json:"empty,omitempty"`
+	Empty *EmptySource `json:"empty"`
 }
 
 // RegistrySource defines a registry disk source
