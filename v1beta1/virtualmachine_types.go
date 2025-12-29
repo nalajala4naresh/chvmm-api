@@ -229,22 +229,26 @@ type VirtualMachineStatus struct {
 	VolumeStatus []VolumeStatus                 `json:"volumeStatus,omitempty"`
 }
 
-// +kubebuilder:validation:Enum=Pending;Scheduling;Scheduled;Running;Succeeded;Failed;Unknown;SnapshotInprogress;VMRestoreInProgress;Paused;Resumed
+// +kubebuilder:validation:Enum=Pending;Scheduling;Scheduled;Running;Succeeded;Failed;Unknown;PodResizeInProgress;ResizeInProgress;PodResizeDeferred;PodResizeInfeasible;SnapshotInprogress;VMRestoreInProgress;Paused;Resumed
 
 type VirtualMachinePhase string
 
 const (
-	VirtualMachinePending            VirtualMachinePhase = "Pending"
-	VirtualMachineScheduling         VirtualMachinePhase = "Scheduling"
-	VirtualMachineScheduled          VirtualMachinePhase = "Scheduled"
-	VirtualMachineRunning            VirtualMachinePhase = "Running"
-	VirtualMachineSucceeded          VirtualMachinePhase = "Succeeded"
-	VirtualMachineFailed             VirtualMachinePhase = "Failed"
-	VirtualMachineUnknown            VirtualMachinePhase = "Unknown"
-	VirtualMachinePaused             VirtualMachinePhase = "Paused"
-	VirtualMachineRestoreInProgress  VirtualMachinePhase = "VMRestoreInProgress"
-	VirtualMachineResumed            VirtualMachinePhase = "Resumed"
-	VirtualMachineSnapShotInprogress VirtualMachinePhase = "SnapshotInprogress"
+	VirtualMachinePending             VirtualMachinePhase = "Pending"
+	VirtualMachineScheduling          VirtualMachinePhase = "Scheduling"
+	VirtualMachineScheduled           VirtualMachinePhase = "Scheduled"
+	VirtualMachineRunning             VirtualMachinePhase = "Running"
+	VirtualMachineSucceeded           VirtualMachinePhase = "Succeeded"
+	VirtualMachineFailed              VirtualMachinePhase = "Failed"
+	VirtualMachineUnknown             VirtualMachinePhase = "Unknown"
+	VirtualMachinePodResizeInProgress VirtualMachinePhase = "PodResizeInProgress"
+	VirtualMachineResizeInProgress    VirtualMachinePhase = "ResizeInProgress"
+	VirtualMachinePodResizeDeferred   VirtualMachinePhase = "PodResizeDeferred"
+	VirtualMachinePodResizeInfeasible VirtualMachinePhase = "PodResizeInfeasible"
+	VirtualMachinePaused              VirtualMachinePhase = "Paused"
+	VirtualMachineRestoreInProgress   VirtualMachinePhase = "VMRestoreInProgress"
+	VirtualMachineResumed             VirtualMachinePhase = "Resumed"
+	VirtualMachineSnapShotInprogress  VirtualMachinePhase = "SnapshotInprogress"
 )
 
 // +kubebuilder:validation:Enum=PowerOn;PowerOff;Shutdown;Reset;Reboot
