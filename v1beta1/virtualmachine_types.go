@@ -51,8 +51,15 @@ type Instance struct {
 	Kernel      *Kernel      `json:"kernel,omitempty"`
 	Pmem        []Pmem       `json:"pmem,omitempty"`
 	Disks       []Disk       `json:"disks,omitempty"`
+	GPUs        []GPU        `json:"gpus,omitempty"`
 	FileSystems []FileSystem `json:"fileSystems,omitempty"`
 	Interfaces  []Interface  `json:"interfaces,omitempty"`
+}
+
+type GPU struct {
+	Name            string `json:"name"`
+	ResourceName    string `json:"resourceName"`
+	ResourceEnvName string `json:"resourceEnvName,omitempty"`
 }
 
 type Pmem struct {
