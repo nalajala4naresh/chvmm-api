@@ -28,7 +28,36 @@ type VirtualMachineSpec struct {
 	Instance  Instance  `json:"instance"`
 	Volumes   []*Volume `json:"volumes,omitempty"`
 	Networks  []Network `json:"networks,omitempty"`
+
+	// EvictionStrategy controls how the VM responds to a pod eviction request
+	// (e.g. node drain, cluster autoscaler scale-down).
+	// +kubebuilder:validation:Enum=None;External;LiveMigrate;LiveMigrateIfPossible
+	EvictionStrategy EvictionStrategy `json:"evictionStrategy,omitempty"`
 }
+
+// EvictionStrategy describes the strategy to follow when a VM's pod is
+// evicted (e.g. during node drain or cluster autoscaler scale-down).
+type EvictionStrategy string
+
+const (
+	// EvictionStrategyNone means the VM will be evicted along with its pod,
+	// with no special handling. This is the default.
+	EvictionStrategyNone EvictionStrategy = "None"
+
+	// EvictionStrategyExternal means an external controller is responsible
+	// for handling eviction of this VM. No PodDisruptionBudget is created.
+	EvictionStrategyExternal EvictionStrategy = "External"
+
+	// EvictionStrategyLiveMigrate guarantees the VM is live migrated instead
+	// of being evicted. A PodDisruptionBudget blocks eviction until a
+	// migration completes. The VM must be migratable.
+	EvictionStrategyLiveMigrate EvictionStrategy = "LiveMigrate"
+
+	// EvictionStrategyLiveMigrateIfPossible behaves like LiveMigrate when the
+	// VM is migratable, but falls back to allowing normal eviction if it is
+	// not.
+	EvictionStrategyLiveMigrateIfPossible EvictionStrategy = "LiveMigrateIfPossible"
+)
 
 type MemoryPath struct {
 	Bucket string `json:"bucket,omitempty"`
@@ -70,12 +99,42 @@ type CPU struct {
 	Sockets               uint32 `json:"sockets,omitempty"`
 	CoresPerSocket        uint32 `json:"coresPerSocket,omitempty"`
 	DedicatedCPUPlacement bool   `json:"dedicatedCPUPlacement,omitempty"`
+
+	// MaxVCPUs is the maximum number of vCPUs this VM can be hot-plugged up
+	// to without a restart. If set, it must be >= sockets*coresPerSocket.
+	// The pod's CPU limit is sized to MaxVCPUs (instead of
+	// sockets*coresPerSocket) so the cgroup has headroom for a future vCPU
+	// hotplug.
+	// +kubebuilder:validation:Minimum=0
+	MaxVCPUs uint32 `json:"maxVCPUs,omitempty"`
 }
 
 type Memory struct {
 	Size      resource.Quantity `json:"size,omitempty"`
 	Hugepages *HugePages        `json:"hugepages,omitempty"`
+
+	// HotplugSize reserves additional memory on top of Size that can be
+	// hot-plugged into the running VM without a restart. The pod's memory
+	// limit is sized to Size+HotplugSize so the cgroup has headroom for a
+	// future memory hotplug.
+	HotplugSize *resource.Quantity `json:"hotplugSize,omitempty"`
+
+	// HotplugMethod selects how hot-plugged memory is exposed to the guest.
+	// +kubebuilder:validation:Enum=Acpi;VirtioMem
+	// +kubebuilder:default=Acpi
+	HotplugMethod MemoryHotplugMethod `json:"hotplugMethod,omitempty"`
 }
+
+// MemoryHotplugMethod describes how hot-plugged memory is surfaced to the guest.
+type MemoryHotplugMethod string
+
+const (
+	// MemoryHotplugMethodACPI exposes hot-plugged memory as ACPI DIMM devices.
+	MemoryHotplugMethodACPI MemoryHotplugMethod = "Acpi"
+
+	// MemoryHotplugMethodVirtioMem exposes hot-plugged memory via virtio-mem.
+	MemoryHotplugMethodVirtioMem MemoryHotplugMethod = "VirtioMem"
+)
 
 type HugePages struct {
 	// +kubebuilder:default="1Gi"
