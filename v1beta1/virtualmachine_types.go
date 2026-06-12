@@ -156,6 +156,12 @@ type Initrd struct {
 type Disk struct {
 	Name     string `json:"name"`
 	ReadOnly *bool  `json:"readOnly,omitempty"`
+	// NumQueues sets the number of virtqueues for the virtio-block device. Defaults to the
+	// Cloud Hypervisor default (1) when unset.
+	NumQueues int `json:"numQueues,omitempty"`
+	// Direct enables O_DIRECT I/O on the backing file, bypassing the host page cache.
+	// Defaults to true.
+	Direct *bool `json:"direct,omitempty"`
 }
 
 type FileSystem struct {
@@ -163,8 +169,11 @@ type FileSystem struct {
 }
 
 type Interface struct {
-	Name                   string `json:"name"`
-	MAC                    string `json:"mac,omitempty"`
+	Name string `json:"name"`
+	MAC  string `json:"mac,omitempty"`
+	// NumQueues sets the number of virtqueues for the virtio-net device (bridge, masquerade
+	// and vhost-user interfaces). Defaults to the Cloud Hypervisor default (1) when unset.
+	NumQueues              int `json:"numQueues,omitempty"`
 	InterfaceBindingMethod `json:",inline"`
 }
 
