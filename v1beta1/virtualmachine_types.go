@@ -28,36 +28,7 @@ type VirtualMachineSpec struct {
 	Instance  Instance  `json:"instance"`
 	Volumes   []*Volume `json:"volumes,omitempty"`
 	Networks  []Network `json:"networks,omitempty"`
-
-	// EvictionStrategy controls how the VM responds to a pod eviction request
-	// (e.g. node drain, cluster autoscaler scale-down).
-	// +kubebuilder:validation:Enum=None;External;LiveMigrate;LiveMigrateIfPossible
-	EvictionStrategy EvictionStrategy `json:"evictionStrategy,omitempty"`
 }
-
-// EvictionStrategy describes the strategy to follow when a VM's pod is
-// evicted (e.g. during node drain or cluster autoscaler scale-down).
-type EvictionStrategy string
-
-const (
-	// EvictionStrategyNone means the VM will be evicted along with its pod,
-	// with no special handling. This is the default.
-	EvictionStrategyNone EvictionStrategy = "None"
-
-	// EvictionStrategyExternal means an external controller is responsible
-	// for handling eviction of this VM. No PodDisruptionBudget is created.
-	EvictionStrategyExternal EvictionStrategy = "External"
-
-	// EvictionStrategyLiveMigrate guarantees the VM is live migrated instead
-	// of being evicted. A PodDisruptionBudget blocks eviction until a
-	// migration completes. The VM must be migratable.
-	EvictionStrategyLiveMigrate EvictionStrategy = "LiveMigrate"
-
-	// EvictionStrategyLiveMigrateIfPossible behaves like LiveMigrate when the
-	// VM is migratable, but falls back to allowing normal eviction if it is
-	// not.
-	EvictionStrategyLiveMigrateIfPossible EvictionStrategy = "LiveMigrateIfPossible"
-)
 
 type MemoryPath struct {
 	Bucket string `json:"bucket,omitempty"`
