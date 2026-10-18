@@ -1,6 +1,6 @@
 // Package v1beta1 contains API Schema definitions for the  v1beta1 API group
 // +kubebuilder:object:generate=true
-// +groupName=cloudhypervisor.microbox.run
+// +groupName=cloudhypervisor.quill.today
 package v1beta1
 
 import (
@@ -10,7 +10,7 @@ import (
 
 var (
 	// GroupVersion is group version used to register these objects
-	GroupVersion = schema.GroupVersion{Group: "cloudhypervisor.microbox.run", Version: "v1beta1"}
+	GroupVersion = schema.GroupVersion{Group: "cloudhypervisor.quill.today", Version: "v1beta1"}
 )
 
 func Kind(kind string) schema.GroupKind {

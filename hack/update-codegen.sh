@@ -5,7 +5,7 @@ set -o nounset
 set -o pipefail
 
 SCRIPT_ROOT=$(dirname "${BASH_SOURCE[0]}")
-CODEGEN_PKG=${CODEGEN_PKG:-$(cd "${SCRIPT_ROOT}"; ls -d -1 ./vendor/k8s.io/code-generator 2>/dev/null || echo $(go env GOPATH)/pkg/mod/k8s.io/code-generator@v0.32.1)}
+CODEGEN_PKG=${CODEGEN_PKG:-$(cd "${SCRIPT_ROOT}"; ls -d -1 ./vendor/k8s.io/code-generator 2>/dev/null || echo $(go env GOPATH)/pkg/mod/k8s.io/code-generator@v0.37.1)}
 
 # generate the code with:
 # --output-base    because this script should also be able to run inside the vendor dir of
