@@ -25,10 +25,22 @@ type VirtualMachineSpec struct {
 	ReadinessProbes *corev1.Probe `json:"readinessProbe,omitempty"`
 
 	RunPolicy RunPolicy `json:"runPolicy,omitempty"`
-	Instance  Instance  `json:"instance"`
-	Volumes   []*Volume `json:"volumes,omitempty"`
-	Networks  []Network `json:"networks,omitempty"`
+
+	// TerminationGracePeriodSeconds is how long the guest is given to shut down after it is
+	// asked to stop (an ACPI power-button press, repeated until it stops) before the VM is
+	// forcibly stopped. 0 stops the VM immediately. Defaults to 30 (DefaultGracePeriodSeconds).
+	// +kubebuilder:validation:Minimum=0
+	// +optional
+	TerminationGracePeriodSeconds *int64 `json:"terminationGracePeriodSeconds,omitempty"`
+
+	Instance Instance  `json:"instance"`
+	Volumes  []*Volume `json:"volumes,omitempty"`
+	Networks []Network `json:"networks,omitempty"`
 }
+
+// DefaultGracePeriodSeconds is the guest shutdown grace period used when
+// VirtualMachineSpec.TerminationGracePeriodSeconds is unset.
+const DefaultGracePeriodSeconds int64 = 30
 
 type MemoryPath struct {
 	Bucket string `json:"bucket,omitempty"`
