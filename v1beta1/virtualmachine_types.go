@@ -33,6 +33,15 @@ type VirtualMachineSpec struct {
 	// +optional
 	TerminationGracePeriodSeconds *int64 `json:"terminationGracePeriodSeconds,omitempty"`
 
+	// EvictionStrategy decides what happens when the VM pod is evicted through the
+	// Eviction API (node drain, cluster-autoscaler, descheduler). None shuts the guest
+	// down gracefully. LiveMigrate live-migrates the VM off the node and blocks the
+	// eviction while the VM is not migratable. LiveMigrateIfPossible live-migrates when
+	// the VM is migratable and otherwise shuts it down. When unset, the controller's
+	// cluster-wide default applies (None unless configured).
+	// +optional
+	EvictionStrategy *EvictionStrategy `json:"evictionStrategy,omitempty"`
+
 	Instance Instance  `json:"instance"`
 	Volumes  []*Volume `json:"volumes,omitempty"`
 	Networks []Network `json:"networks,omitempty"`
@@ -41,6 +50,22 @@ type VirtualMachineSpec struct {
 // DefaultGracePeriodSeconds is the guest shutdown grace period used when
 // VirtualMachineSpec.TerminationGracePeriodSeconds is unset.
 const DefaultGracePeriodSeconds int64 = 30
+
+// +kubebuilder:validation:Enum=None;LiveMigrate;LiveMigrateIfPossible
+
+// EvictionStrategy is the VM's response to an eviction of its pod.
+type EvictionStrategy string
+
+const (
+	// EvictionStrategyNone lets the eviction proceed; the guest is shut down gracefully.
+	EvictionStrategyNone EvictionStrategy = "None"
+	// EvictionStrategyLiveMigrate live-migrates the VM and blocks the eviction while the
+	// VM cannot be migrated.
+	EvictionStrategyLiveMigrate EvictionStrategy = "LiveMigrate"
+	// EvictionStrategyLiveMigrateIfPossible live-migrates the VM when it is migratable and
+	// otherwise lets the eviction proceed.
+	EvictionStrategyLiveMigrateIfPossible EvictionStrategy = "LiveMigrateIfPossible"
+)
 
 type MemoryPath struct {
 	Bucket string `json:"bucket,omitempty"`
@@ -277,14 +302,17 @@ type MultusNetworkSource struct {
 }
 
 type VirtualMachineStatus struct {
-	Phase        VirtualMachinePhase            `json:"phase,omitempty"`
-	VMPodName    string                         `json:"vmPodName,omitempty"`
-	VMPodUID     types.UID                      `json:"vmPodUID,omitempty"`
-	NodeName     string                         `json:"nodeName,omitempty"`
-	PowerAction  VirtualMachinePowerAction      `json:"powerAction,omitempty"`
-	Migration    *VirtualMachineStatusMigration `json:"migration,omitempty"`
-	Conditions   []metav1.Condition             `json:"conditions,omitempty"`
-	VolumeStatus []VolumeStatus                 `json:"volumeStatus,omitempty"`
+	Phase       VirtualMachinePhase            `json:"phase,omitempty"`
+	VMPodName   string                         `json:"vmPodName,omitempty"`
+	VMPodUID    types.UID                      `json:"vmPodUID,omitempty"`
+	NodeName    string                         `json:"nodeName,omitempty"`
+	PowerAction VirtualMachinePowerAction      `json:"powerAction,omitempty"`
+	Migration   *VirtualMachineStatusMigration `json:"migration,omitempty"`
+	// EvacuationNodeName is set when an eviction asked for the VM to be live-migrated off
+	// this node. It is cleared once the VM runs elsewhere.
+	EvacuationNodeName string             `json:"evacuationNodeName,omitempty"`
+	Conditions         []metav1.Condition `json:"conditions,omitempty"`
+	VolumeStatus       []VolumeStatus     `json:"volumeStatus,omitempty"`
 }
 
 // +kubebuilder:validation:Enum=Pending;Scheduling;Scheduled;Running;Succeeded;Failed;Unknown;PodResizeInProgress;ResizeInProgress;PodResizeDeferred;PodResizeInfeasible;SnapshotInprogress;VMRestoreInProgress;Paused;Resumed

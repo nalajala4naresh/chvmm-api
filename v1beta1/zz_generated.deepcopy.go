@@ -1992,6 +1992,11 @@ func (in *VirtualMachineSpec) DeepCopyInto(out *VirtualMachineSpec) {
 		*out = new(int64)
 		**out = **in
 	}
+	if in.EvictionStrategy != nil {
+		in, out := &in.EvictionStrategy, &out.EvictionStrategy
+		*out = new(EvictionStrategy)
+		**out = **in
+	}
 	in.Instance.DeepCopyInto(&out.Instance)
 	if in.Volumes != nil {
 		in, out := &in.Volumes, &out.Volumes
